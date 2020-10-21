@@ -1,0 +1,36 @@
+{
+    "name": "dachcom-digital/social-data-youtube-connector",
+    "type": "pimcore-social-data-connector-bundle",
+    "license": "GPL-3.0-or-later",
+    "description": "Pimcore Social Data Youtube Connector",
+    "keywords": [
+        "pimcore",
+        "social",
+        "feed",
+        "social wall",
+        "youtube"
+    ],
+    "homepage": "https://github.com/dachcom-digital/pimcore-social-data-youtube-connector",
+    "authors": [
+        {
+            "name": "DACHCOM.DIGITAL Stefan Hagspiel",
+            "email": "shagspiel@dachcom.ch",
+            "homepage": "http://www.dachcom.com/",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SocialData\\Connector\\Youtube\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "require": {
+        "google/apiclient": "^2.0",
+        "dachcom-digital/social-data": "^1.0"
+    }
+}

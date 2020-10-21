@@ -1,0 +1,35 @@
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    ## Definition
+
+    SocialData\Connector\Youtube\Definition\ConnectorDefinition:
+        tags:
+            - {
+                name: social_data.connector_definition,
+                identifier: youtube,
+                socialPostBuilder: SocialData\Connector\Youtube\Builder\SocialPostBuilder
+            }
+
+    ## Social Post Builder
+
+    SocialData\Connector\Youtube\Builder\SocialPostBuilder: ~
+
+    ## API
+
+    SocialData\Connector\Youtube\Client\YoutubeClient: ~
+
+    ## Form
+
+    SocialData\Connector\Youtube\Form\Admin\Type\YoutubeEngineType:
+        tags:
+            - { name: form.type }
+
+    SocialData\Connector\Youtube\Form\Admin\Type\YoutubeFeedType:
+        tags:
+            - { name: form.type }
+
