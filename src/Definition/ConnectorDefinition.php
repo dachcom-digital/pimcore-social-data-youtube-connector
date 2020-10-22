@@ -65,15 +65,7 @@ class ConnectorDefinition implements ConnectorDefinitionInterface
     public function setDefinitionConfiguration(array $definitionConfiguration)
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefaults([
-            'api_connect_permission' => [
-                //LinkedInSDK::R_LITEPROFILE,
-                //LinkedInSDK::R_EMAILADDRESS,
-                //LinkedInSDK::R_ORGANIZATION_SOCIAL,
-            ]
-        ]);
-
-        $resolver->setAllowedTypes('api_connect_permission', 'string[]');
+        $resolver->setDefaults([]);
 
         try {
             $this->definitionConfiguration = $resolver->resolve($definitionConfiguration);

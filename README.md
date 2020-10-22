@@ -3,6 +3,9 @@
 This Connector allows you to fetch social posts from Youtube. 
 Before you start be sure you've checked out the [Setup Instructions](../00_Setup.md).
 
+![image](https://user-images.githubusercontent.com/700119/96834100-b52d3280-1441-11eb-9049-a2165c7f2770.png)
+
+
 #### Requirements
 * [Pimcore Social Data Bundle](https://github.com/dachcom-digital/pimcore-social-data)
 
@@ -50,16 +53,12 @@ social_data:
 ```
 
 ## Connector Configuration
-![image]
+![image](https://user-images.githubusercontent.com/700119/96833921-70a19700-1441-11eb-9180-5bed8e1e843f.png)
 
 Now head back to the backend (`System` => `Social Data` => `Connector Configuration`) and checkout the youtube tab.
 - Click on `Install`
 - Click on `Enable`
-- Before you hit the `Connect` button, you need to fill you out the Connector Configuration. After that, click "Save".
-- Click `Connect`
-  
-## Connection
-![image]
+- Fill out the
 
 This will guide you through the youtube token generation. 
 After hitting the "Connect" button, a popup will open to guide you through youtube authentication process. 
@@ -70,20 +69,9 @@ Otherwise, you'll receive an error message. You may then need to repeat the conn
 
 | Name | Description
 |------|----------------------|
+| `Fetch Type` | Choose the fetch type. Values: `Client ID` or `Playlist ID` |
+| `Value` | The client id or playlist id |
 | `Limit` | Define a limit to restrict the amount of social posts to import (Default: 50) |
-
-## Extended Connector Configuration
-Normally you don't need to modify connector (`connector_config`) configuration, so most of the time you can skip this step.
-However, if you need to change some core setting of a connector, you're able to change them of course.
-
-```yaml
-# app/config/config.yml
-social_data:
-    available_connectors:
-        -   connector_name: youtube
-            connector_config:
-                api_connect_permission: ['r_liteprofile', 'r_emailaddress'] # default value
-```
 
 ***
 
