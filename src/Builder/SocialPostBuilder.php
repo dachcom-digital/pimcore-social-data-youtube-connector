@@ -16,30 +16,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SocialPostBuilder implements SocialPostBuilderInterface
 {
-    /**
-     * @var YoutubeClient
-     */
-    protected $youtubeClient;
+    protected YoutubeClient $youtubeClient;
 
-    /**
-     * @param YoutubeClient $youtubeClient
-     */
     public function __construct(YoutubeClient $youtubeClient)
     {
         $this->youtubeClient = $youtubeClient;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureFetch(BuildConfig $buildConfig, OptionsResolver $resolver): void
     {
         // nothing to configure so far.
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function fetch(FetchData $data): void
     {
         $options = $data->getOptions();
@@ -84,17 +72,11 @@ class SocialPostBuilder implements SocialPostBuilderInterface
         $data->setFetchedEntities($items);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureFilter(BuildConfig $buildConfig, OptionsResolver $resolver): void
     {
         // nothing to configure so far.
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function filter(FilterData $data): void
     {
         $element = $data->getTransferredData();
@@ -113,17 +95,11 @@ class SocialPostBuilder implements SocialPostBuilderInterface
         $data->setFilteredId($element['id']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureTransform(BuildConfig $buildConfig, OptionsResolver $resolver): void
     {
         // nothing to configure so far.
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function transform(TransformData $data): void
     {
         $element = $data->getTransferredData();
@@ -153,14 +129,9 @@ class SocialPostBuilder implements SocialPostBuilderInterface
     }
 
     /**
-     * @param \Google_Client $client
-     * @param string         $channelId
-     * @param int            $limit
-     *
-     * @return array
      * @throws BuildException
      */
-    protected function getChannelItems(\Google_Client $client, string $channelId, int $limit)
+    protected function getChannelItems(\Google_Client $client, string $channelId, int $limit): array
     {
         $items = [];
         $service = new \Google_Service_YouTube($client);
@@ -182,7 +153,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
             try {
                 $response = $service->search->listSearch('snippet', $params);
             } catch (\Google_Service_Exception $e) {
-                throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', join(', ', array_map(function ($e) {
+                throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', implode(', ', array_map(static function ($e) {
                     return $e['message'];
                 }, $e->getErrors())), 'listSearch'));
             } catch (\Throwable $e) {
@@ -233,14 +204,9 @@ class SocialPostBuilder implements SocialPostBuilderInterface
     }
 
     /**
-     * @param \Google_Client $client
-     * @param string         $playlistId
-     * @param int            $limit
-     *
-     * @return array
      * @throws BuildException
      */
-    protected function getPlaylistItems(\Google_Client $client, string $playlistId, int $limit)
+    protected function getPlaylistItems(\Google_Client $client, string $playlistId, int $limit): array
     {
         $items = [];
         $service = new \Google_Service_YouTube($client);
@@ -260,7 +226,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
             try {
                 $response = $service->playlistItems->listPlaylistItems('snippet', $params);
             } catch (\Google_Service_Exception $e) {
-                throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', join(', ', array_map(function ($e) {
+                throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', implode(', ', array_map(static function ($e) {
                     return $e['message'];
                 }, $e->getErrors())), 'listPlaylistItems'));
             } catch (\Throwable $e) {
@@ -309,26 +275,25 @@ class SocialPostBuilder implements SocialPostBuilderInterface
         return $parsedItems;
     }
 
-    /**
-     * @param \Google_Service_YouTube_ThumbnailDetails $thumbnailDetails
-     *
-     * @return \Google_Service_YouTube_Thumbnail|null
-     */
-    protected function getThumbnail(\Google_Service_YouTube_ThumbnailDetails $thumbnailDetails)
+    protected function getThumbnail(\Google_Service_YouTube_ThumbnailDetails $thumbnailDetails): ?\Google_Service_YouTube_Thumbnail
     {
         if ($thumbnailDetails->getMaxres() !== null) {
             return $thumbnailDetails->getMaxres();
-        } elseif ($thumbnailDetails->getHigh() !== null) {
-            return $thumbnailDetails->getHigh();
-        } elseif ($thumbnailDetails->getMedium() !== null) {
-            return $thumbnailDetails->getMedium();
-        } elseif ($thumbnailDetails->getStandard() !== null) {
-            return $thumbnailDetails->getStandard();
-        } elseif ($thumbnailDetails->getDefault() !== null) {
-            return $thumbnailDetails->getDefault();
         }
 
-        return null;
+        if ($thumbnailDetails->getHigh() !== null) {
+            return $thumbnailDetails->getHigh();
+        }
+
+        if ($thumbnailDetails->getMedium() !== null) {
+            return $thumbnailDetails->getMedium();
+        }
+
+        if ($thumbnailDetails->getStandard() !== null) {
+            return $thumbnailDetails->getStandard();
+        }
+
+        return $thumbnailDetails->getDefault();
     }
 
 }

@@ -15,7 +15,7 @@
         {
             "name": "DACHCOM.DIGITAL Stefan Hagspiel",
             "email": "shagspiel@dachcom.ch",
-            "homepage": "http://www.dachcom.com/",
+            "homepage": "https://www.dachcom.com",
             "role": "Developer"
         }
     ],
@@ -27,24 +27,18 @@
     "autoload-dev": {
         "psr-4": {
             "": "src/"
-        },
-        "classmap": [
-            "app/TestKernel.php"
-        ]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0-dev"
         }
     },
     "require": {
-        "google/apiclient": "^2.0",
-        "dachcom-digital/social-data": "^1.0"
+        "dachcom-digital/social-data": "^2.0",
+        "google/apiclient": "^2.10"
     },
     "require-dev": {
-        "codeception/codeception": "~2.4.0",
-        "phpstan/phpstan": "^0.12",
-        "phpstan/phpstan-symfony": "^0.12",
-        "symplify/easy-coding-standard": "^8.0"
+        "codeception/codeception": "^4.1",
+        "codeception/module-webdriver": "^1.4",
+        "codeception/module-symfony": "^1.6",
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-symfony": "^1.0",
+        "symplify/easy-coding-standard": "^9.0"
     }
 }

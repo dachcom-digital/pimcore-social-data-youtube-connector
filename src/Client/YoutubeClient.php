@@ -6,12 +6,7 @@ use SocialData\Connector\Youtube\Model\EngineConfiguration;
 
 class YoutubeClient
 {
-    /**
-     * @param EngineConfiguration $configuration
-     *
-     * @return \Google_Client
-     */
-    public function getClient(EngineConfiguration $configuration)
+    public function getClient(EngineConfiguration $configuration): \Google_Client
     {
         $client = new \Google_Client();
         $client->setApplicationName('Pimcore Social Data | Youtube Connector');

@@ -1,35 +1,38 @@
-# Pimcore Social Data - Youtube Connector
+# Pimcore Social Data - YouTube Connector
 
 [![Software License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Latest Release](https://img.shields.io/packagist/v/dachcom-digital/social-data-youtube-connector.svg?style=flat-square)](https://packagist.org/packages/dachcom-digital/social-data-youtube-connector)
-[![Tests](https://img.shields.io/github/workflow/status/dachcom-digital/pimcore-social-data-youtube-connector/Codeception?style=flat-square&logo=github&label=codeception)](https://github.com/dachcom-digital/pimcore-social-data-youtube-connector/actions?query=workflow%3A%22Codeception%22)
-[![PhpStan](https://img.shields.io/github/workflow/status/dachcom-digital/pimcore-social-data-youtube-connector/PHP%20Stan?style=flat-square&logo=github&label=phpstan%20level%202)](https://github.com/dachcom-digital/pimcore-social-data-youtube-connector/actions?query=workflow%3A%22PHP%20Stan%22)
+[![Tests](https://img.shields.io/github/workflow/status/dachcom-digital/pimcore-social-data-youtube-connector/Codeception/master?style=flat-square&logo=github&label=codeception)](https://github.com/dachcom-digital/pimcore-social-data-youtube-connector/actions?query=workflow%3ACodeception+branch%3Amaster)
+[![PhpStan](https://img.shields.io/github/workflow/status/dachcom-digital/pimcore-social-data-youtube-connector/PHP%20Stan/master?style=flat-square&logo=github&label=phpstan%20level%204)](https://github.com/dachcom-digital/pimcore-social-data-youtube-connector/actions?query=workflow%3A"PHP+Stan"+branch%3Amaster)
 
-This Connector allows you to fetch social posts from Youtube. 
-Before you start be sure you've checked out the [Setup Instructions](../00_Setup.md).
+This Connector allows you to fetch social posts from YouTube. 
 
 ![image](https://user-images.githubusercontent.com/700119/96834100-b52d3280-1441-11eb-9049-a2165c7f2770.png)
 
-
-#### Requirements
-* [Pimcore Social Data Bundle](https://github.com/dachcom-digital/pimcore-social-data)
+### Release Plan
+| Release | Supported Pimcore Versions        | Supported Symfony Versions | Release Date | Maintained     | Branch     |
+|---------|-----------------------------------|----------------------------|--------------|----------------|------------|
+| **2.x** | `10.1` - `10.2`                   | `5.4`                      | --           | Feature Branch | master     |
+| **1.x** | `6.0` - `6.9`                     | `3.4`, `^4.4`              | 22.10.2020   | Unsupported    | 1.x        |
 
 ## Installation
 
 ### I. Add Dependency
 ```json
 "require" : {
-    "dachcom-digital/social-data-youtube-connector" : "~1.0.0",
+    "dachcom-digital/social-data" : "~2.0.0",
+    "dachcom-digital/social-data-youtube-connector" : "~2.0.0",
 }
 ```
 
 ### II. Register Connector Bundle
 ```php
-// src/AppKernel.php
-use Pimcore\Kernel;
+// src/Kernel.php
+namespace App;
+
 use Pimcore\HttpKernel\BundleCollection\BundleCollection;
 
-class AppKernel extends Kernel
+class Kernel extends \Pimcore\Kernel
 {
     public function registerBundlesToCollection(BundleCollection $collection)
     {
@@ -40,12 +43,8 @@ class AppKernel extends Kernel
 
 ### III. Install Assets
 ```bash
-bin/console assets:install web --relative --symlink
+bin/console assets:install public --relative --symlink
 ```
-
-## Third-Party Requirements
-To use this connector, this bundle requires some additional packages:
-- [google/apiclient](https://github.com/googleapis/google-api-php-client): Required for Google API (Mostly already installed within a Pimcore Installation)
 
 ## Enable Connector
 
@@ -57,18 +56,20 @@ social_data:
         -   connector_name: youtube
 ```
 
+## YouTube Backoffice
+Some hints to set up your YouTube app:
+- Create API Key on https://console.cloud.google.com/apis/credentials
+- Enable YouTube API v3: https://console.developers.google.com/apis/api/youtube.googleapis.com/overview
+
 ## Connector Configuration
 ![image](https://user-images.githubusercontent.com/700119/96833921-70a19700-1441-11eb-9180-5bed8e1e843f.png)
 
-Now head back to the backend (`System` => `Social Data` => `Connector Configuration`) and checkout the youtube tab.
+Now head back to the backend (`System` => `Social Data` => `Connector Configuration`) and checkout the YouTube tab.
 - Click on `Install`
 - Click on `Enable`
-- Fill out the
 
-This will guide you through the youtube token generation. 
-After hitting the "Connect" button, a popup will open to guide you through youtube authentication process. 
-If everything worked out fine, the connection setup is complete after the popup closes.
-Otherwise, you'll receive an error message. You may then need to repeat the connection step.
+## Connection
+YouTube is auto connected after a valid API Key has been set.
 
 ## Feed Configuration
 
@@ -77,6 +78,10 @@ Otherwise, you'll receive an error message. You may then need to repeat the conn
 | `Fetch Type` | Choose the fetch type. Values: `Client ID` or `Playlist ID` |
 | `Value` | The client id or playlist id |
 | `Limit` | Define a limit to restrict the amount of social posts to import (Default: 50) |
+
+## Third-Party Requirements
+To use this connector, this bundle requires some additional packages:
+- [google/apiclient](https://github.com/googleapis/google-api-php-client): Required for Google API (Mostly already installed within a PIMCORE installation)
 
 ***
 

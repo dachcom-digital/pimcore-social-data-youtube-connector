@@ -7,73 +7,41 @@ use SocialData\Connector\Youtube\Form\Admin\Type\YoutubeFeedType;
 
 class FeedConfiguration implements ConnectorFeedConfigurationInterface
 {
-    /**
-     * @var string
-     */
-    protected $fetchType;
+    protected ?string $fetchType = null;
+    protected ?string $fetchValue = null;
+    protected ?int $limit = null;
 
-    /**
-     * @var string
-     */
-    protected $fetchValue;
-
-    /**
-     * @var int
-     */
-    protected $limit;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getFormClass()
+    public static function getFormClass(): string
     {
         return YoutubeFeedType::class;
     }
 
-    /**
-     * @param string|null $fetchType
-     */
-    public function setFetchType(?string $fetchType)
+    public function setFetchType(?string $fetchType): void
     {
         $this->fetchType = $fetchType;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFetchType()
+    public function getFetchType(): ?string
     {
         return $this->fetchType;
     }
 
-    /**
-     * @param string|null $fetchValue
-     */
-    public function setFetchValue(?string $fetchValue)
+    public function setFetchValue(?string $fetchValue): void
     {
         $this->fetchValue = $fetchValue;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFetchValue()
+    public function getFetchValue(): ?string
     {
         return $this->fetchValue;
     }
 
-    /**
-     * @param int|null $limit
-     */
-    public function setLimit(?int $limit)
+    public function setLimit(?int $limit): void
     {
         $this->limit = $limit;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
