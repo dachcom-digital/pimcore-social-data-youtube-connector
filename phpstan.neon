@@ -8,4 +8,8 @@ parameters:
         container_xml_path: %currentWorkingDirectory%/var/cache/test/TestKernelTestDebugContainer.xml
         constant_hassers: false
     excludes_analyse:  []
-    ignoreErrors: []
+    ignoreErrors:
+        -
+            message: '#Unreachable statement - code above always terminates#' # google api returns non null return types
+            path: Builder/SocialPostBuilder.php
+            count: 1

@@ -66,7 +66,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
         }
 
         if (count($items) > $limit) {
-            array_slice($items, 0, $limit);
+            $items = array_slice($items, 0, $limit);
         }
 
         $data->setFetchedEntities($items);
