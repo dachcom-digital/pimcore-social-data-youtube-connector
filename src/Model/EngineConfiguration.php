@@ -7,31 +7,19 @@ use SocialData\Connector\Youtube\Form\Admin\Type\YoutubeEngineType;
 
 class EngineConfiguration implements ConnectorEngineConfigurationInterface
 {
-    /**
-     * @var string
-     */
-    protected $apiKey;
+    protected ?string $apiKey = null;
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getFormClass()
+    public static function getFormClass(): string
     {
         return YoutubeEngineType::class;
     }
 
-    /**
-     * @param string $apiKey
-     */
-    public function setApiKey($apiKey)
+    public function setApiKey(string $apiKey): void
     {
         $this->apiKey = $apiKey;
     }
 
-    /**
-     * @return string
-     */
-    public function getApiKey()
+    public function getApiKey(): ?string
     {
         return $this->apiKey;
     }
