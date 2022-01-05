@@ -11,5 +11,5 @@ parameters:
     ignoreErrors:
         -
             message: "#^Unreachable statement \\- code above always terminates\\.$#" # google api returns non null return types
-            path: Builder/SocialPostBuilder.php
+            path: src/Builder/SocialPostBuilder.php
             count: 1
