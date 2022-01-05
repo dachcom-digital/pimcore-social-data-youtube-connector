@@ -10,6 +10,6 @@ parameters:
     excludes_analyse:  []
     ignoreErrors:
         -
-            message: '#Unreachable statement - code above always terminates#' # google api returns non null return types
+            message: "#^Unreachable statement \\- code above always terminates\\.$#" # google api returns non null return types
             path: Builder/SocialPostBuilder.php
             count: 1
