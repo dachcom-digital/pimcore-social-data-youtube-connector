@@ -49,7 +49,7 @@ bin/console assets:install public --relative --symlink
 ## Enable Connector
 
 ```yaml
-# app/config/config.yml
+# config/packages/social_data.yaml
 social_data:
     social_post_data_class: SocialPost
     available_connectors:
