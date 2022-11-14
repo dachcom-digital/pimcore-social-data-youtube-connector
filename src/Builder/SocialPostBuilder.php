@@ -154,6 +154,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
                 $response = $service->search->listSearch('snippet', $params);
             } catch (\Google_Service_Exception $e) {
                 throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', implode(', ', array_map(static function ($e) {
+                    /** @phpstan-ignore-next-line */
                     return $e['message'];
                 }, $e->getErrors())), 'listSearch'));
             } catch (\Throwable $e) {
@@ -227,6 +228,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
                 $response = $service->playlistItems->listPlaylistItems('snippet', $params);
             } catch (\Google_Service_Exception $e) {
                 throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', implode(', ', array_map(static function ($e) {
+                    /** @phpstan-ignore-next-line */
                     return $e['message'];
                 }, $e->getErrors())), 'listPlaylistItems'));
             } catch (\Throwable $e) {
