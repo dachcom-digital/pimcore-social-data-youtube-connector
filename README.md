@@ -10,10 +10,10 @@ This Connector allows you to fetch social posts from YouTube.
 ![image](https://user-images.githubusercontent.com/700119/96834100-b52d3280-1441-11eb-9049-a2165c7f2770.png)
 
 ### Release Plan
-| Release | Supported Pimcore Versions        | Supported Symfony Versions | Release Date | Maintained     | Branch     |
-|---------|-----------------------------------|----------------------------|--------------|----------------|------------|
-| **2.x** | `10.1` - `10.2`                   | `5.4`                      | 05.01.2022   | Feature Branch | master     |
-| **1.x** | `6.0` - `6.9`                     | `3.4`, `^4.4`              | 22.10.2020   | Unsupported    | [1.x](https://github.com/dachcom-digital/pimcore-social-data-youtube-connector/tree/1.x) |
+| Release | Supported Pimcore Versions | Supported Symfony Versions | Release Date | Maintained     | Branch                                                                                   |
+|---------|----------------------------|----------------------------|--------------|----------------|------------------------------------------------------------------------------------------|
+| **2.x** | `10.1` - `10.5`            | `5.4`                      | 05.01.2022   | Feature Branch | master                                                                                   |
+| **1.x** | `6.0` - `6.9`              | `3.4`, `^4.4`              | 22.10.2020   | Unsupported    | [1.x](https://github.com/dachcom-digital/pimcore-social-data-youtube-connector/tree/1.x) |
 
 ## Installation
 
