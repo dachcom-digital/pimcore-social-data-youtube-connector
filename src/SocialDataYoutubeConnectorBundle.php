@@ -2,32 +2,22 @@
 
 namespace SocialData\Connector\Youtube;
 
-use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
 use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SocialDataYoutubeConnectorBundle extends AbstractPimcoreBundle
+class SocialDataYoutubeConnectorBundle extends Bundle
 {
     use PackageVersionTrait;
 
     public const PACKAGE_NAME = 'dachcom-digital/social-data-youtube-connector';
 
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
+
     protected function getComposerPackageName(): string
     {
         return self::PACKAGE_NAME;
-    }
-
-    public function getCssPaths(): array
-    {
-        return [
-            '/bundles/socialdatayoutubeconnector/css/admin.css'
-        ];
-    }
-
-    public function getJsPaths(): array
-    {
-        return [
-            '/bundles/socialdatayoutubeconnector/js/connector/youtube-connector.js',
-            '/bundles/socialdatayoutubeconnector/js/feed/youtube-feed.js',
-        ];
     }
 }

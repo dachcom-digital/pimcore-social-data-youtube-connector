@@ -7,7 +7,7 @@ parameters:
     symfony:
         container_xml_path: %currentWorkingDirectory%/var/cache/test/TestKernelTestDebugContainer.xml
         constant_hassers: false
-    excludes_analyse:  []
+    excludePaths: []
     ignoreErrors:
         -
             message: "#^Unreachable statement \\- code above always terminates\\.$#" # google api returns non null return types
