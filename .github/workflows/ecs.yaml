@@ -1,4 +1,4 @@
-name: Codeception
+name: Easy Coding Standards
 on:
     push:
         branches: [ 'master' ]
@@ -6,7 +6,7 @@ on:
         branches: [ 'master' ]
 
 jobs:
-    codeception:
+    ecs:
         runs-on: ubuntu-latest
         env:
             TEST_BUNDLE_NAME: "SocialDataYoutubeConnectorBundle"
@@ -15,12 +15,11 @@ jobs:
             TEST_PROJECT_ROOT_DIR: "${{ github.workspace }}"
 
             PIMCORE_CODECEPTION_FRAMEWORK: "${{ github.workspace }}/pimcore-codeception-framework"
-            PIMCORE_CODECEPTION_VERSION: "2.0"
+            PIMCORE_CODECEPTION_VERSION: "3.0"
 
             APP_ENV: test
             PIMCORE_TEST_DB_DSN: "mysql://root:root@127.0.0.1:3306/dachcom_bundle_test"
             PIMCORE_TEST_URL: "http://localhost"
-            PIMCORE_CLASS_DIRECTORY: "${{ github.workspace }}/lib/test-bundle/tests/_output/var/classes/DataObject"
 
             SYMFONY_DEPRECATIONS_HELPER: "weak"
             PIMCORE_PHP_ERROR_REPORTING: 32767
@@ -38,12 +37,12 @@ jobs:
                 options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         strategy:
             matrix:
-                php: [ 8.1 ]
-                symfony: [ ^5.4 ]
-                pimcore: [ ~10.6.0 ]
+                php: [ 8.2 ]
+                symfony: [ ^6.2 ]
+                pimcore: [ ~11.0.0 ]
                 include:
-                    -   pimcore: ~10.6.0
-                        template_tag: v10.2.5
+                    -   pimcore: ~11.0.0
+                        template_tag: v11.0.0
         steps:
             -   uses: actions/checkout@v2
                 with:
@@ -86,15 +85,6 @@ jobs:
                     sudo systemctl start mysql
                     mysql -uroot -proot -h127.0.0.1 -e "CREATE DATABASE dachcom_bundle_test CHARSET=utf8mb4;"
 
-            -   name: Setup Chromium
-                run: |
-                    nohup $CHROMEWEBDRIVER/chromedriver --url-base=/wd/hub /dev/null 2>&1 &
-
-            -   name: Start Webserver and Chrome
-                run: |
-                    curl -sS https://get.symfony.com/cli/installer | bash -s -- --install-dir=$HOME/.symfony/bin
-                    ~/.symfony/bin/symfony server:start --port=8080 --dir=public --allow-http --no-tls --daemon
-
             -   name: Get Composer Cache Directory
                 id: composer-cache
                 run: |
@@ -123,15 +113,8 @@ jobs:
                 run: |
                     bin/console assets:install public --relative --symlink
 
-            -   name: Tests
+            -   name: Easy Coding Standard Check
+                continue-on-error: true
                 run: |
                     bin/console cache:warmup --env=test
-                    vendor/bin/codecept run --env github -c ${{ github.workspace }}/lib/test-bundle
-
-            -   name: Log Output
-                uses: actions/upload-artifact@v2
-                if: failure()
-                with:
-                    name: "Logs (PHP ${{ matrix.php }}, Pimcore ${{ matrix.pimcore }}, Symfony ${{ matrix.symfony }})"
-                    path: ${{ github.workspace }}/lib/test-bundle/tests/_output/
-                    if-no-files-found: ignore
+                    vendor/bin/ecs check ${{ github.workspace }}/lib/test-bundle/src --config ${{ github.workspace }}/lib/test-bundle/ecs.php

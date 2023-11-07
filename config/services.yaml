@@ -33,3 +33,8 @@ services:
         tags:
             - { name: form.type }
 
+    ## Events
+
+    SocialData\Connector\Youtube\EventListener\Admin\AssetListener:
+        tags:
+            - { name: kernel.event_subscriber }
