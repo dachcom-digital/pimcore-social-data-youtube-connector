@@ -34,7 +34,7 @@
     },
     "require": {
         "dachcom-digital/social-data": "^3.0",
-        "google/apiclient": "^2.10"
+        "google/apiclient": "^2.12"
     },
     "require-dev": {
         "codeception/codeception": "^5.0",

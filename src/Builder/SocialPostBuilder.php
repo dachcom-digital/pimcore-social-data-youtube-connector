@@ -3,6 +3,15 @@
 namespace SocialData\Connector\Youtube\Builder;
 
 use Carbon\Carbon;
+use Google\Client;
+use Google\Service\Exception;
+use Google\Service\YouTube;
+use Google\Service\YouTube\PlaylistItem;
+use Google\Service\YouTube\PlaylistItemListResponse;
+use Google\Service\YouTube\SearchListResponse;
+use Google\Service\YouTube\SearchResult;
+use Google\Service\YouTube\Thumbnail;
+use Google\Service\YouTube\ThumbnailDetails;
 use SocialData\Connector\Youtube\Client\YoutubeClient;
 use SocialDataBundle\Dto\BuildConfig;
 use SocialData\Connector\Youtube\Model\EngineConfiguration;
@@ -16,11 +25,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SocialPostBuilder implements SocialPostBuilderInterface
 {
-    protected YoutubeClient $youtubeClient;
-
-    public function __construct(YoutubeClient $youtubeClient)
+    public function __construct(protected YoutubeClient $youtubeClient)
     {
-        $this->youtubeClient = $youtubeClient;
     }
 
     public function configureFetch(BuildConfig $buildConfig, OptionsResolver $resolver): void
@@ -131,10 +137,10 @@ class SocialPostBuilder implements SocialPostBuilderInterface
     /**
      * @throws BuildException
      */
-    protected function getChannelItems(\Google_Client $client, string $channelId, int $limit): array
+    protected function getChannelItems(Client $client, string $channelId, int $limit): array
     {
         $items = [];
-        $service = new \Google_Service_YouTube($client);
+        $service = new YouTube($client);
 
         $params = [
             'channelId'  => $channelId,
@@ -152,7 +158,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
             try {
                 $response = $service->search->listSearch('snippet', $params);
-            } catch (\Google_Service_Exception $e) {
+            } catch (Exception $e) {
                 throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', implode(', ', array_map(static function ($e) {
                     /** @phpstan-ignore-next-line */
                     return $e['message'];
@@ -161,7 +167,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
                 throw new BuildException(sprintf('fetch error: %s [endpoint: %s]', $e->getMessage(), 'listPlaylistItems'));
             }
 
-            if (!$response instanceof \Google_Service_YouTube_SearchListResponse) {
+            if (!$response instanceof SearchListResponse) {
                 break;
             }
 
@@ -173,13 +179,9 @@ class SocialPostBuilder implements SocialPostBuilderInterface
             }
         }
 
-        if (!is_array($items)) {
-            return [];
-        }
-
         $parsedItems = [];
 
-        /** @var \Google_Service_YouTube_SearchResult $item */
+        /** @var SearchResult $item */
         foreach ($items as $item) {
 
             $resource = $item->getId();
@@ -187,7 +189,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
             $thumbnail = null;
             $maxResThumbnail = $this->getThumbnail($snippet->getThumbnails());
-            if ($maxResThumbnail instanceof \Google_Service_YouTube_Thumbnail) {
+            if ($maxResThumbnail instanceof Thumbnail) {
                 $thumbnail = $maxResThumbnail->getUrl();
             }
 
@@ -207,10 +209,10 @@ class SocialPostBuilder implements SocialPostBuilderInterface
     /**
      * @throws BuildException
      */
-    protected function getPlaylistItems(\Google_Client $client, string $playlistId, int $limit): array
+    protected function getPlaylistItems(Client $client, string $playlistId, int $limit): array
     {
         $items = [];
-        $service = new \Google_Service_YouTube($client);
+        $service = new YouTube($client);
 
         $params = [
             'playlistId' => $playlistId,
@@ -226,7 +228,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
             try {
                 $response = $service->playlistItems->listPlaylistItems('snippet', $params);
-            } catch (\Google_Service_Exception $e) {
+            } catch (Exception $e) {
                 throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', implode(', ', array_map(static function ($e) {
                     /** @phpstan-ignore-next-line */
                     return $e['message'];
@@ -235,7 +237,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
                 throw new BuildException(sprintf('fetch error: %s [endpoint: %s]', $e->getMessage(), 'listPlaylistItems'));
             }
 
-            if (!$response instanceof \Google_Service_YouTube_PlaylistItemListResponse) {
+            if (!$response instanceof PlaylistItemListResponse) {
                 break;
             }
 
@@ -247,20 +249,16 @@ class SocialPostBuilder implements SocialPostBuilderInterface
             }
         }
 
-        if (!is_array($items)) {
-            return [];
-        }
-
         $parsedItems = [];
 
-        /** @var \Google_Service_YouTube_PlaylistItem $item */
+        /** @var PlaylistItem $item */
         foreach ($items as $item) {
 
             $snippet = $item->getSnippet();
 
             $thumbnail = null;
             $maxResThumbnail = $this->getThumbnail($snippet->getThumbnails());
-            if ($maxResThumbnail instanceof \Google_Service_YouTube_Thumbnail) {
+            if ($maxResThumbnail instanceof Thumbnail) {
                 $thumbnail = $maxResThumbnail->getUrl();
             }
 
@@ -277,7 +275,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
         return $parsedItems;
     }
 
-    protected function getThumbnail(\Google_Service_YouTube_ThumbnailDetails $thumbnailDetails): ?\Google_Service_YouTube_Thumbnail
+    protected function getThumbnail(ThumbnailDetails $thumbnailDetails): ?Thumbnail
     {
         if ($thumbnailDetails->getMaxres() !== null) {
             return $thumbnailDetails->getMaxres();
@@ -297,5 +295,4 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
         return $thumbnailDetails->getDefault();
     }
-
 }
