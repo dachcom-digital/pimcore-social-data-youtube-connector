@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This source file is available under two different licenses:
+ *   - GNU General Public License version 3 (GPLv3)
+ *   - DACHCOM Commercial License (DCL)
+ * Full copyright and license information is available in
+ * LICENSE.md which is distributed with this source code.
+ *
+ * @copyright  Copyright (c) DACHCOM.DIGITAL AG (https://www.dachcom-digital.com)
+ * @license    GPLv3 and DCL
+ */
+
 namespace SocialData\Connector\Youtube\Builder;
 
 use Carbon\Carbon;
@@ -13,10 +24,10 @@ use Google\Service\YouTube\SearchResult;
 use Google\Service\YouTube\Thumbnail;
 use Google\Service\YouTube\ThumbnailDetails;
 use SocialData\Connector\Youtube\Client\YoutubeClient;
-use SocialDataBundle\Dto\BuildConfig;
 use SocialData\Connector\Youtube\Model\EngineConfiguration;
 use SocialData\Connector\Youtube\Model\FeedConfiguration;
 use SocialDataBundle\Connector\SocialPostBuilderInterface;
+use SocialDataBundle\Dto\BuildConfig;
 use SocialDataBundle\Dto\FetchData;
 use SocialDataBundle\Dto\FilterData;
 use SocialDataBundle\Dto\TransformData;
@@ -151,7 +162,6 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
         $nextPageToken = 'INIT';
         while (!empty($nextPageToken)) {
-
             if ($nextPageToken !== 'INIT') {
                 $params['pageToken'] = $nextPageToken;
             }
@@ -160,7 +170,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
                 $response = $service->search->listSearch('snippet', $params);
             } catch (Exception $e) {
                 throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', implode(', ', array_map(static function ($e) {
-                    /** @phpstan-ignore-next-line */
+                    /* @phpstan-ignore-next-line */
                     return $e['message'];
                 }, $e->getErrors())), 'listSearch'));
             } catch (\Throwable $e) {
@@ -183,7 +193,6 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
         /** @var SearchResult $item */
         foreach ($items as $item) {
-
             $resource = $item->getId();
             $snippet = $item->getSnippet();
 
@@ -221,7 +230,6 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
         $nextPageToken = 'INIT';
         while (!empty($nextPageToken)) {
-
             if ($nextPageToken !== 'INIT') {
                 $params['pageToken'] = $nextPageToken;
             }
@@ -230,7 +238,7 @@ class SocialPostBuilder implements SocialPostBuilderInterface
                 $response = $service->playlistItems->listPlaylistItems('snippet', $params);
             } catch (Exception $e) {
                 throw new BuildException(sprintf('fetch google service error: %s [endpoint: %s]', implode(', ', array_map(static function ($e) {
-                    /** @phpstan-ignore-next-line */
+                    /* @phpstan-ignore-next-line */
                     return $e['message'];
                 }, $e->getErrors())), 'listPlaylistItems'));
             } catch (\Throwable $e) {
@@ -253,7 +261,6 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
         /** @var PlaylistItem $item */
         foreach ($items as $item) {
-
             $snippet = $item->getSnippet();
 
             $thumbnail = null;
@@ -277,22 +284,22 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
     protected function getThumbnail(ThumbnailDetails $thumbnailDetails): ?Thumbnail
     {
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         if ($thumbnailDetails->getMaxres() !== null) {
             return $thumbnailDetails->getMaxres();
         }
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         if ($thumbnailDetails->getHigh() !== null) {
             return $thumbnailDetails->getHigh();
         }
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         if ($thumbnailDetails->getMedium() !== null) {
             return $thumbnailDetails->getMedium();
         }
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         if ($thumbnailDetails->getStandard() !== null) {
             return $thumbnailDetails->getStandard();
         }
