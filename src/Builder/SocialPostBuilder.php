@@ -277,18 +277,22 @@ class SocialPostBuilder implements SocialPostBuilderInterface
 
     protected function getThumbnail(ThumbnailDetails $thumbnailDetails): ?Thumbnail
     {
+        /** @phpstan-ignore-next-line */
         if ($thumbnailDetails->getMaxres() !== null) {
             return $thumbnailDetails->getMaxres();
         }
 
+        /** @phpstan-ignore-next-line */
         if ($thumbnailDetails->getHigh() !== null) {
             return $thumbnailDetails->getHigh();
         }
 
+        /** @phpstan-ignore-next-line */
         if ($thumbnailDetails->getMedium() !== null) {
             return $thumbnailDetails->getMedium();
         }
 
+        /** @phpstan-ignore-next-line */
         if ($thumbnailDetails->getStandard() !== null) {
             return $thumbnailDetails->getStandard();
         }
