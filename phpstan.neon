@@ -5,11 +5,5 @@ parameters:
         - %currentWorkingDirectory%/vendor/pimcore/pimcore/stubs/dynamic-constants.php
     reportUnmatchedIgnoredErrors: false
     symfony:
-        container_xml_path: %currentWorkingDirectory%/var/cache/test/TestKernelTestDebugContainer.xml
-        constant_hassers: false
-    excludePaths: []
-    ignoreErrors:
-        -
-            message: "#^Unreachable statement \\- code above always terminates\\.$#" # google api returns non null return types
-            path: src/Builder/SocialPostBuilder.php
-            count: 1
+        containerXmlPath: %currentWorkingDirectory%/var/cache/test/TestKernelTestDebugContainer.xml
+        constantHassers: false
